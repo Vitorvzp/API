@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, session
+from flask import Flask, jsonify, session, render_template
 import Functions.database
 from sqlmodel import Session, null, select
 
@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def Home():
-  return 'API ONLINE!'
+  return render_template('index.html')
 
 @app.route('/Nomes')
 def Nomes():
@@ -30,4 +30,4 @@ def Usuarios():
     with open('Logs/logUsuarios.txt', 'r', encoding='utf-8') as arquivo:
       return jsonify(arquivo.read())
 
-app.run(host='0.0.0.0')
+app.run()
