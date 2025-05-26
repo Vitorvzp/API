@@ -30,4 +30,4 @@ def Usuarios():
     with open('Logs/logUsuarios.txt', 'r', encoding='utf-8') as arquivo:
       return jsonify(arquivo.read())
 
-app.run()
+app.run(host='0.0.0.0', port=5000)
