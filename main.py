@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def Home():
-  return render_template('Templates/index.html')
+  return render_template('index.html')
 
 @app.route('/Nomes')
 def Nomes():
@@ -30,4 +30,4 @@ def Usuarios():
     with open('Logs/logUsuarios.txt', 'r', encoding='utf-8') as arquivo:
       return jsonify(arquivo.read())
 
-app.run(host='0.0.0.0', port=5000)
+app.run(host='0.0.0.0')
