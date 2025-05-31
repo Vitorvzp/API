@@ -128,7 +128,5 @@ def products():
 
 if __name__ == "__main__":
   users()
-  users2()
-  users3()
   funcs()
   products()

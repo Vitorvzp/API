@@ -2,9 +2,9 @@ import json
 from cryptography.fernet import Fernet
 import os
 
-CAMINHO_CHAVE = os.path.join("functions", "key.key")
-CAMINHO_CRIPTO = os.path.join("functions", "cripto.enc")
-CAMINHO_DESCRIPTO = os.path.join("functions", "descripto.enc")
+CAMINHO_CHAVE = os.path.join("Functions", "key.key")
+CAMINHO_CRIPTO = os.path.join("Functions", "cripto.enc")
+CAMINHO_DESCRIPTO = os.path.join("Functions", "descripto.enc")
 
 def carregar_dicionario(caminho_arquivo: str, chave: bytes) -> dict:
     fernet = Fernet(chave)
