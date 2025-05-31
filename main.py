@@ -89,7 +89,7 @@ class Site():
     @self.app.route('/Produtos/<int:id>', methods=['GET'])
     def Search_Produtos(id):
       with Session(Functions.database.engine) as session:
-        statement = select(Functions.database.Produtos).where(Functions.database.Funcionarios.id==id)
+        statement = select(Functions.database.Produtos).where(Functions.database.Produtos.id==id)
         usuario = session.exec(statement).first()
       return jsonify ({
         "id": usuario.id,
