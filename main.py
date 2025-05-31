@@ -28,18 +28,7 @@ class Site():
       bot.send(ip)
       return render_template('index.html')
 
-    @self.app.route('/Nomes')
-    def Nomes():
-      with Session(Functions.database.engine) as session:
-        statement = select(Functions.database.Usuario.nome)
-        usuarios = session.exec(statement).all()
-        with open('Logs/logNomes.txt', 'w', encoding='utf-8') as arquivo:
-          for usuario in usuarios:
-            arquivo.write(f'{usuario}\n')
-        with open('Logs/logNomes.txt', 'r', encoding='utf-8') as arquivo:
-          return jsonify(arquivo.read())
-
-    @self.app.route('/Usuarios')
+    @self.app.route('/Usuarios', methods=['GET'])
     def Usuarios():
       with Session(Functions.database.engine) as session:
         statement = select(Functions.database.Usuario)
@@ -49,6 +38,66 @@ class Site():
             arquivo.write(f'{usuario.id},{usuario.nome},{usuario.idade},{usuario.gmail}')
         with open('Logs/logUsuarios.txt', 'r', encoding='utf-8') as arquivo:
           return jsonify(arquivo.read())
+    @self.app.route('/Usuarios/<int:id>', methods=['GET'])
+    def Search_Usuarios(id):
+      with Session(Functions.database.engine) as session:
+        statement = select(Functions.database.Usuario).where(Functions.database.Usuario.id==id)
+        usuario = session.exec(statement).first()
+      return {
+        "id": usuario.id,
+        "nome": usuario.nome,
+        "idade": usuario.idade,
+        "cpf": usuario.cpf,
+        "gmail": usuario.gmail,
+        "ano": usuario.ano,
+      }
+    @self.app.route('/Funcionarios', methods=['GET'])
+    def Funcionarios():
+      with Session(Functions.database.engine) as session:
+        statement = select(Functions.database.Usuario)
+        usuarios = session.exec(statement).all()
+        with open('Logs/logFuncionarios.txt', 'w', encoding='utf-8') as arquivo:
+          for usuario in usuarios:
+            arquivo.write(f'{usuario.id},{usuario.nome},{usuario.idade},{usuario.gmail}')
+        with open('Logs/logFuncionarios.txt', 'r', encoding='utf-8') as arquivo:
+          return jsonify(arquivo.read())
+    @self.app.route('/Funcionarios/<int:id>', methods=['GET'])
+    def Search_Funcionarios(id):
+      with Session(Functions.database.engine) as session:
+        statement = select(Functions.database.Funcionarios).where(Functions.database.Funcionarios.id==id)
+        usuario = session.exec(statement).first()
+      return {
+        "id": usuario.id,
+        "nome": usuario.nome,
+        "salário": usuario.salario,
+        "saldo": usuario.saldo,
+        "cpf": usuario.cpf,
+        "usuario": usuario.usuario,
+        "senha": usuario.senha,
+      }
+
+    @self.app.route('/Produtos', methods=['GET'])
+    def Produtos():
+      with Session(Functions.database.engine) as session:
+        statement = select(Functions.database.Usuario)
+        usuarios = session.exec(statement).all()
+        with open('Logs/logProdutos.txt', 'w', encoding='utf-8') as arquivo:
+          for usuario in usuarios:
+            arquivo.write(f'{usuario.id},{usuario.nome},{usuario.idade},{usuario.gmail}')
+        with open('Logs/logProdutos.txt', 'r', encoding='utf-8') as arquivo:
+          return jsonify(arquivo.read())
+    @self.app.route('/Produtos/<int:id>', methods=['GET'])
+    def Search_Produtos(id):
+      with Session(Functions.database.engine) as session:
+        statement = select(Functions.database.Produtos).where(Functions.database.Funcionarios.id==id)
+        usuario = session.exec(statement).first()
+      return {
+        "id": usuario.id,
+        "nome": usuario.nome,
+        "preço": usuario.preco,
+        "quantidade": usuario.quantidade,
+      }
+
   def run_site(self):
     self.app.run(host='0.0.0.0', port=5000)
 
