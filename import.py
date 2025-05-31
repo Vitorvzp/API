@@ -114,28 +114,8 @@ def products():
       session.commit()
 
 if __name__ == "__main__":
-  userthread = Thread(target=users)
-  userthread.daemon = True
-  userthread.start()
-
-  userthread2 = Thread(target=users)
-  userthread2.daemon = True
-  userthread2.start()
-
-  userthread3 = Thread(target=users)
-  userthread3.daemon = True
-  userthread3.start()
-
-  functhread = Thread(target=funcs)
-  functhread.daemon = True
-  functhread.start()
-
-  productthread = Thread(target=products)
-  productthread.daemon = True
-  productthread.start()
-
-  userthread.join()
-  userthread2.join()
-  userthread3.join()
-  functhread.join()
-  productthread.join()
+  users()
+  users2()
+  users3()
+  funcs()
+  products()
