@@ -43,14 +43,14 @@ class Site():
       with Session(Functions.database.engine) as session:
         statement = select(Functions.database.Usuario).where(Functions.database.Usuario.id==id)
         usuario = session.exec(statement).first()
-      return {
+      return jsonify({
         "id": usuario.id,
         "nome": usuario.nome,
         "idade": usuario.idade,
         "cpf": usuario.cpf,
         "gmail": usuario.gmail,
         "ano": usuario.ano,
-      }
+      })
     @self.app.route('/Funcionarios', methods=['GET'])
     def Funcionarios():
       with Session(Functions.database.engine) as session:
@@ -66,7 +66,7 @@ class Site():
       with Session(Functions.database.engine) as session:
         statement = select(Functions.database.Funcionarios).where(Functions.database.Funcionarios.id==id)
         usuario = session.exec(statement).first()
-      return {
+      return jsonify ({
         "id": usuario.id,
         "nome": usuario.nome,
         "salário": usuario.salario,
@@ -74,7 +74,7 @@ class Site():
         "cpf": usuario.cpf,
         "usuario": usuario.usuario,
         "senha": usuario.senha,
-      }
+      })
 
     @self.app.route('/Produtos', methods=['GET'])
     def Produtos():
@@ -91,12 +91,12 @@ class Site():
       with Session(Functions.database.engine) as session:
         statement = select(Functions.database.Produtos).where(Functions.database.Funcionarios.id==id)
         usuario = session.exec(statement).first()
-      return {
+      return jsonify ({
         "id": usuario.id,
         "nome": usuario.nome,
         "preço": usuario.preco,
         "quantidade": usuario.quantidade,
-      }
+      })
 
   def run_site(self):
     self.app.run(host='0.0.0.0', port=5000)
