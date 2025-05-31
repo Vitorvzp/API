@@ -119,12 +119,12 @@ if __name__ == "__main__":
   userthread.start()
 
   userthread2 = Thread(target=users)
-  userthread.daemon = True
-  userthread.start()
+  userthread2.daemon = True
+  userthread2.start()
 
   userthread3 = Thread(target=users)
-  userthread.daemon = True
-  userthread.start()
+  userthread3.daemon = True
+  userthread3.start()
 
   functhread = Thread(target=funcs)
   functhread.daemon = True
