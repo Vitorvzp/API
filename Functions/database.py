@@ -1,10 +1,10 @@
-from sqlmodel import SQLModel, Field, create_engine, Session, select
+from sqlmodel import SQLModel, Field, create_engine
 from time import sleep as s
 from os import path as p
 
 
 class Usuario(SQLModel, table=True):
-    id: int = Field(primary_key=True, nullable=True)
+    id: int = Field(default=None, primary_key=True)
     nome: str
     idade: int
     cpf: str
@@ -13,7 +13,7 @@ class Usuario(SQLModel, table=True):
 
 # Nome, Salário, Saldo ,CPF, Usuário e senha
 class Funcionarios(SQLModel, table=True):
-    id: int = Field(primary_key=True, nullable=True)
+    id: int = Field(default=None, primary_key=True)
     nome: str
     salario: float
     saldo: float
@@ -23,7 +23,7 @@ class Funcionarios(SQLModel, table=True):
 
 # Nome, Preço e Quantidade
 class Produtos(SQLModel, table=True):
-    id: int = Field(primary_key=True, nullable=True)
+    id: int = Field(default=None, primary_key=True)
     nome: str
     preco: float
     quantidade: str
