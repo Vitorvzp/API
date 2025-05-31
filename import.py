@@ -28,9 +28,14 @@ def users():
         nome = criptografar(nome)
         cpf = criptografar(cpf)
         gmail = criptografar(gmail)
-        usuario = Usuario(id=x, nome=nome, idade=idade, cpf=cpf, gmail=gmail, ano=ano)
+        usuario = Usuario(nome=nome, idade=idade, cpf=cpf, gmail=gmail, ano=ano)
         session.add(usuario)
-        print(f'User {x}')
+        if x == 99999:
+          session.commit()
+        if x == 199999:
+          session.commit()
+        if x == 299999:
+          session.commit()
       session.commit()
 def users2():
   with Session(engine) as session:
@@ -48,9 +53,14 @@ def users2():
         nome = criptografar(nome)
         cpf = criptografar(cpf)
         gmail = criptografar(gmail)
-        usuario = Usuario(id=x, nome=nome, idade=idade, cpf=cpf, gmail=gmail, ano=ano)
+        usuario = Usuario(nome=nome, idade=idade, cpf=cpf, gmail=gmail, ano=ano)
         session.add(usuario)
-        print(f'User {x}')
+        if x == 99999:
+          session.commit()
+        if x == 199999:
+          session.commit()
+        if x == 299999:
+          session.commit()
       session.commit()
 def users3():
   with Session(engine) as session:
@@ -68,9 +78,14 @@ def users3():
         nome = criptografar(nome)
         cpf = criptografar(cpf)
         gmail = criptografar(gmail)
-        usuario = Usuario(id=x, nome=nome, idade=idade, cpf=cpf, gmail=gmail, ano=ano)
+        usuario = Usuario(nome=nome, idade=idade, cpf=cpf, gmail=gmail, ano=ano)
         session.add(usuario)
-        print(f'User {x}')
+        if x == 99999:
+          session.commit()
+        if x == 199999:
+          session.commit()
+        if x == 299999:
+          session.commit()
       session.commit()
 
 def funcs():
@@ -91,9 +106,8 @@ def funcs():
         cpf = criptografar(cpf)
         usuario = criptografar(usuario)
         senha = criptografar(senha)
-        funcionarios = Funcionarios(id=x, nome=nome, salario=salario, saldo=saldo, cpf=cpf, usuario=usuario, senha=senha)
+        funcionarios = Funcionarios(nome=nome, salario=salario, saldo=saldo, cpf=cpf, usuario=usuario, senha=senha)
         session.add(funcionarios)
-        print(f'Func {x}')
       session.commit()
 
 def products():
@@ -108,9 +122,8 @@ def products():
         preco = line[1].strip()
         quantidade = line[2].strip()
         nome = criptografar(nome)
-        produtos = Produtos(id=x, nome=nome, preco=preco, quantidade=quantidade)
+        produtos = Produtos(nome=nome, preco=preco, quantidade=quantidade)
         session.add(produtos)
-        print(f'Product {x}')
       session.commit()
 
 if __name__ == "__main__":
