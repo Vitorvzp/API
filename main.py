@@ -1,19 +1,22 @@
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from flask import Flask, jsonify, session, render_template, request
 import Functions.database
 from sqlmodel import Session, null, select
 import Functions.bot
 from threading import Thread
 from datetime import datetime
+from runtime_paths import data_file
 
 def get_ip():
     if 'X-Forwarded-For' in request.headers:
         ip = request.headers['X-Forwarded-For'].split(',')[0].strip()
     else:
         ip = request.remote_addr
-    with open('Logs/logEnters.txt', 'r', encoding='utf-8') as ler:
-      ler = ler.read()
-      with open('Logs/logEnters.txt', 'w', encoding='utf-8') as escrever:
-        escrever.write(f'{ler}\n{datetime.now()} IP:{ip}')
+    with data_file('Logs', 'logEnters.txt').open('a', encoding='utf-8') as escrever:
+      escrever.write(f'\n{datetime.now()} IP:{ip}')
     return ip
 
 class Site():
@@ -33,10 +36,10 @@ class Site():
       with Session(Functions.database.engine) as session:
         statement = select(Functions.database.Usuario)
         usuarios = session.exec(statement).all()
-        with open('Logs/logUsuarios.txt', 'w', encoding='utf-8') as arquivo:
+        with data_file('Logs', 'logUsuarios.txt').open('w', encoding='utf-8') as arquivo:
           for usuario in usuarios:
             arquivo.write(f'{usuario.id},{usuario.nome},{usuario.idade},{usuario.gmail}')
-        with open('Logs/logUsuarios.txt', 'r', encoding='utf-8') as arquivo:
+        with data_file('Logs', 'logUsuarios.txt').open('r', encoding='utf-8') as arquivo:
           return jsonify(arquivo.read())
     @self.app.route('/Usuarios/<int:id>', methods=['GET'])
     def Search_Usuarios(id):
@@ -56,10 +59,10 @@ class Site():
       with Session(Functions.database.engine) as session:
         statement = select(Functions.database.Usuario)
         usuarios = session.exec(statement).all()
-        with open('Logs/logFuncionarios.txt', 'w', encoding='utf-8') as arquivo:
+        with data_file('Logs', 'logFuncionarios.txt').open('w', encoding='utf-8') as arquivo:
           for usuario in usuarios:
             arquivo.write(f'{usuario.id},{usuario.nome},{usuario.idade},{usuario.gmail}')
-        with open('Logs/logFuncionarios.txt', 'r', encoding='utf-8') as arquivo:
+        with data_file('Logs', 'logFuncionarios.txt').open('r', encoding='utf-8') as arquivo:
           return jsonify(arquivo.read())
     @self.app.route('/Funcionarios/<int:id>', methods=['GET'])
     def Search_Funcionarios(id):
@@ -81,10 +84,10 @@ class Site():
       with Session(Functions.database.engine) as session:
         statement = select(Functions.database.Usuario)
         usuarios = session.exec(statement).all()
-        with open('Logs/logProdutos.txt', 'w', encoding='utf-8') as arquivo:
+        with data_file('Logs', 'logProdutos.txt').open('w', encoding='utf-8') as arquivo:
           for usuario in usuarios:
             arquivo.write(f'{usuario.id},{usuario.nome},{usuario.idade},{usuario.gmail}')
-        with open('Logs/logProdutos.txt', 'r', encoding='utf-8') as arquivo:
+        with data_file('Logs', 'logProdutos.txt').open('r', encoding='utf-8') as arquivo:
           return jsonify(arquivo.read())
     @self.app.route('/Produtos/<int:id>', methods=['GET'])
     def Search_Produtos(id):

@@ -12,3 +12,17 @@ Thumbs.db
 .vscode/
 *.bak
 *.swp
+
+# Private runtime material must remain outside the checkout.
+*.key
+*.enc
+*.db
+*.db-*
+*.sqlite
+*.sqlite-*
+*.sqlite3-*
+/Data/*
+!/Data/__init__.py
+/Logs/
+/Imports/
+/message_geo_db.json

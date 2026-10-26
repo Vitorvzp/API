@@ -1,6 +1,6 @@
 from sqlmodel import SQLModel, Field, create_engine
 from time import sleep as s
-from os import path as p
+from runtime_paths import data_file
 
 
 class Usuario(SQLModel, table=True):
@@ -28,7 +28,7 @@ class Produtos(SQLModel, table=True):
     preco: float
     quantidade: str
 
-connection_string = f"sqlite:///Data/database.db"
+connection_string = f"sqlite:///{data_file('Data', 'database.db').as_posix()}"
 
 engine = create_engine(connection_string)
 
