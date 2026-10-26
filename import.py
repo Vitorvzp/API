@@ -1,4 +1,8 @@
-from os import path as p
+from dotenv import load_dotenv
+
+load_dotenv()
+
+from runtime_paths import data_file
 import Functions.database
 from sqlmodel import Session, select
 from threading import Thread
@@ -14,7 +18,7 @@ Produtos = Functions.database.Produtos
 paths = ["Usuarios.txt","Funcionarios.txt","Produtos.txt","Usuarios2.txt","Usuarios3.txt"]
 def users():
   with Session(engine) as session:
-    with open(p.join("Imports", paths[0]), "r", encoding='utf-8') as ler:
+    with data_file("Imports", paths[0]).open("r", encoding='utf-8') as ler:
       lines = ler.readlines()
       x = 0
       for line in lines:
@@ -39,7 +43,7 @@ def users():
       session.commit()
 def users2():
   with Session(engine) as session:
-    with open(p.join("Imports", paths[3]), "r", encoding='utf-8') as ler:
+    with data_file("Imports", paths[3]).open("r", encoding='utf-8') as ler:
       lines = ler.readlines()
       x = 0
       for line in lines:
@@ -64,7 +68,7 @@ def users2():
       session.commit()
 def users3():
   with Session(engine) as session:
-    with open(p.join("Imports", paths[4]), "r", encoding='utf-8') as ler:
+    with data_file("Imports", paths[4]).open("r", encoding='utf-8') as ler:
       lines = ler.readlines()
       x = 0
       for line in lines:
@@ -90,7 +94,7 @@ def users3():
 
 def funcs():
   with Session(engine) as session:
-    with open(p.join("Imports", paths[1]), "r", encoding='utf-8') as ler:
+    with data_file("Imports", paths[1]).open("r", encoding='utf-8') as ler:
       lines = ler.readlines()
       x = 0
       for line in lines:
@@ -112,7 +116,7 @@ def funcs():
 
 def products():
   with Session(engine) as session:
-    with open(p.join("Imports", paths[2]), "r", encoding='utf-8') as ler:
+    with data_file("Imports", paths[2]).open("r", encoding='utf-8') as ler:
       lines = ler.readlines()
       x = 0
       for line in lines:

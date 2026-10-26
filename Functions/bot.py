@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 import os
 import pytz
 import json
+from runtime_paths import data_file
 
 load_dotenv()
 
@@ -85,7 +86,9 @@ class DiscordBot():
         self.loop = None
 
         # Arquivo para salvar mensagens com botões enviados
-        self.msg_db_file = "message_geo_db.json"
+        self.msg_db_file = data_file("message_geo_db.json")
+        self.log_file = data_file("Logs", "logEnters.txt")
+        self.log_file.touch(exist_ok=True)
         self.message_geo_db = self.load_message_geo_db()
 
         super(DiscordBot, self).__init__()
@@ -136,8 +139,8 @@ class DiscordBot():
         @tasks.loop(time=time(16))
         async def log():
             channel = self.bot.get_channel(1377402614404223076)
-            await channel.send(file=discord.File(r'Logs/logEnters.txt'))
-            with open('Logs/logEnters.txt', 'w', encoding='utf-8') as arquivo:
+            await channel.send(file=discord.File(str(self.log_file)))
+            with self.log_file.open('w', encoding='utf-8') as arquivo:
                 arquivo.write(' ')
 
         @self.bot.event

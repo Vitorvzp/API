@@ -1,79 +1,51 @@
+# API · Python / Flask
 
-# 🌐 API de Processamento de Dados
+> **Escopo deste rascunho:** este PR inclui somente código, documentação e testes. As remoções de arquivos privados do índice foram preparadas apenas no commit local e não estão incluídas aqui, para evitar sua exposição no diff. Os arquivos legados continuam rastreados nesta branch remota e no histórico até uma etapa específica.
 
-Uma API desenvolvida em Python para processamento e análise de dados, com funcionalidades de importação, registro de logs e visualização de resultados.
+Protótipo de API com consultas de usuários, funcionários e produtos, importação de arquivos e integração com um bot Discord. O código usa Flask, SQLModel/SQLite, discord.py e dicionários legados de substituição de caracteres.
 
-## 🚀 Funcionalidades
+## Estrutura
 
-- Importação de dados a partir de arquivos ou fontes externas.
-- Registro detalhado de logs para monitoramento de processos.
-- Armazenamento e gerenciamento de dados processados.
-- Visualização de resultados por meio de templates HTML.
+- `main.py`: rotas HTTP e inicialização da API e do bot.
+- `Functions/database.py`: modelos e conexão SQLite.
+- `Functions/bot.py`: integração Discord e registros de acesso.
+- `Functions/security.py`: carregamento sob demanda dos dicionários privados.
+- `runtime_paths.py`: resolução dos caminhos externos de dados e chaves.
+- `import.py`: importação de arquivos CSV locais.
+- `tests/`: testes isolados com dados sintéticos.
 
-## 🛠️ Tecnologias Utilizadas
+## Desenvolvimento local
 
-- [Python 3.x](https://www.python.org/)
-- [Flask](https://flask.palletsprojects.com/)
-- [Jinja2](https://jinja.palletsprojects.com/)
-- Outras bibliotecas listadas em `requirements.txt`
+Crie um ambiente virtual e instale `requirements.txt`. Antes de executar `python main.py`, configure as variáveis abaixo no ambiente ou em um `.env` local ignorado pelo Git. A execução corrigida exige caminhos externos explícitos, sem fallback para os arquivos legados.
 
-## 📁 Estrutura do Projeto
+| Variável | Uso |
+| --- | --- |
+| `API_DATA_DIR` | Diretório absoluto fora do checkout para SQLite, logs e arquivos de importação. Obrigatório para iniciar. |
+| `API_KEY_FILE` | Arquivo absoluto de chave Fernet fora do checkout. Obrigatório para usar os dicionários. |
+| `API_CRIPTO_FILE` | Dicionário cifrado de substituição, em arquivo externo. |
+| `API_DESCRIPTO_FILE` | Dicionário inverso cifrado, em arquivo externo. |
+| `DISCORD_BOT_TOKEN` | Token da integração Discord. |
 
+O banco fica em `API_DATA_DIR/Data/database.db`, os logs em `API_DATA_DIR/Logs/`, os CSVs em `API_DATA_DIR/Imports/` e o estado do bot em `API_DATA_DIR/message_geo_db.json`. Os diretórios necessários são criados sob o caminho configurado; arquivos privados existentes não são copiados nem migrados automaticamente. Caminhos relativos ou dentro deste checkout são recusados. Configuração ausente interrompe a operação correspondente, sem procurar arquivos antigos no repositório.
+
+O processo carrega os dicionários somente na primeira operação e os mantém em memória até reiniciar. Esse mecanismo de substituição é legado e não substitui criptografia adequada de dados ou hashing de senhas.
+
+## Testes sem serviços externos
+
+Com `cryptography` e `sqlmodel` instalados no ambiente virtual:
+
+```sh
+python -m unittest discover -s tests -v
 ```
-API/
-├── Data/               # Diretório para armazenamento de dados brutos
-├── Functions/          # Módulos com funções auxiliares
-├── Logs/               # Arquivos de log gerados durante o processamento
-├── templates/          # Templates HTML para visualização de resultados
-├── __pycache__/        # Arquivos de cache do Python
-├── import.py           # Script para importação de dados
-├── main.py             # Arquivo principal para execução da API
-├── message_geo_db.json # Base de dados geográficos em formato JSON
-├── requirements.txt    # Dependências do projeto
-└── .gitignore          # Arquivos e pastas ignorados pelo Git
-```
 
-## ⚙️ Instalação
+Os testes usam apenas chaves efêmeras, dicionários inventados e SQLite temporário. Não execute `main.py` ou `import.py` como parte desses testes: eles iniciam serviços ou processam arquivos de dados.
 
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/Vitorvzp/API.git
-   ```
+## Estado de segurança
 
-2. Navegue até o diretório do projeto:
-   ```bash
-   cd API
-   ```
+Os padrões de chave, dicionários, SQLite, logs e caches estão cobertos pelo .gitignore. A retirada efetiva das entradas legadas do índice permanece somente no preparo local, fora deste PR. Isso não remove versões anteriores do histórico nem invalida material já exposto. Rotação de chaves, avaliação de dados expostos, migração e eventual limpeza do histórico exigem uma etapa específica; não foram executadas por esta alteração.
 
-3. Crie e ative um ambiente virtual (opcional, mas recomendado):
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # Linux/MacOS
-   venv\Scripts\activate   # Windows
-   ```
+As rotas de consulta ainda não têm autenticação na aplicação, retornam campos sensíveis e o bot ainda envia registros ao Discord. A correção de armazenamento local não resolve esses comportamentos. Antes de qualquer uso com dados reais, revise autenticação, minimização e transmissão dos dados em uma mudança separada. Nenhum serviço ou configuração de produção foi alterado.
 
-4. Instale as dependências:
-   ```bash
-   pip install -r requirements.txt
-   ```
+## Autoria e licença
 
-5. Execute a aplicação:
-   ```bash
-   python main.py
-   ```
-
-## 🔧 Configuração
-
-Antes de executar a aplicação, certifique-se de:
-
-- Configurar as variáveis de ambiente necessárias, se houver.
-- Verificar as permissões de leitura/escrita nos diretórios `Data/` e `Logs/`.
-- Personalizar os templates HTML conforme as necessidades do projeto.
-
-## 📄 Licença
-
-Este projeto está licenciado sob a [MIT License](LICENSE).
-
----
-
-Para mais informações sobre desenvolvimento de APIs com Flask, consulte a [documentação oficial do Flask](https://flask.palletsprojects.com/).
+A autoria e o histórico existentes foram preservados. O checkout atual não contém arquivo `LICENSE`; este README não atribui uma licença ausente.
